@@ -40,6 +40,7 @@ public class ModuleManager {
         modules.add(new ParticlesModule());
         modules.add(new TargetESP());
         modules.add(new CustomFog());
+        modules.add(new HitColor());
 
         // Misc
         modules.add(new RemoveVisual());

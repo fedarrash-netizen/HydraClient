@@ -45,13 +45,6 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-
-	// Discord RPC
-	implementation files('libs/java-discord-rpc-2.0.1-all.jar')
-	
-	// JNA dependencies for DiscordRPC (updated versions)
-	implementation "net.java.dev.jna:jna:5.14.0"
-	implementation "net.java.dev.jna:jna-platform:5.14.0"
 }
 
 processResources {

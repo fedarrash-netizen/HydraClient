@@ -18,7 +18,9 @@
 		"ScreenEffectRendererMixin",
 		"PlayerInfoMixin",
 		"PlayerTeamMixin",
-		"SkyRendererMixin"
+		"SkyRendererMixin",
+		"LivingEntityRenderStateMixin",
+		"LivingEntityRendererHitColorMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
