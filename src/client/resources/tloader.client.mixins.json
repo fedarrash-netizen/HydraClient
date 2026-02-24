@@ -10,12 +10,14 @@
 		"ChatScreenMixin",
 		"ChatScreenAccessor",
 		"BossHealthOverlayMixin",
+		"CloudRendererMixin",
 		"GuiMixin",
 		"ParticleEngineMixin",
 		"LevelRendererMixin",
 		"PlayerInfoMixin",
 		"PlayerTeamMixin",
-		"LocalPlayerMixin"
+		"LocalPlayerMixin",
+		"SkyRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

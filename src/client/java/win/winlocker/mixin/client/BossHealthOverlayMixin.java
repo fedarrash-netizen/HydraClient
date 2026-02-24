@@ -13,7 +13,10 @@ import win.winlocker.module.render.NoRender;
 public class BossHealthOverlayMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRender(GuiGraphics guiGraphics, CallbackInfo ci) {
-        NoRender nr = (NoRender) ModuleManager.getModule(NoRender.class);
+        NoRender nr = NoRender.getInstance();
+        if (nr == null) {
+            nr = (NoRender) ModuleManager.getModule(NoRender.class);
+        }
         if (nr != null && nr.shouldHideBossBar()) {
             ci.cancel();
         }
