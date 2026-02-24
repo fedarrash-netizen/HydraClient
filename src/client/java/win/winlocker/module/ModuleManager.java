@@ -36,6 +36,7 @@ public class ModuleManager {
         modules.add(new KeepSprint());
 
         // Render
+        modules.add(new NoRender());
         modules.add(new ParticlesModule());
         modules.add(new TargetESP());
 
