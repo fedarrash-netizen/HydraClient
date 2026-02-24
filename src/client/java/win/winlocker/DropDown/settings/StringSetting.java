@@ -15,4 +15,8 @@ public class StringSetting extends Setting {
     public void set(String value) {
         this.value = value;
     }
+    
+    public boolean isEmpty() {
+        return value == null || value.isEmpty();
+    }
 }

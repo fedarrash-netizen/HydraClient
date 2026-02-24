@@ -12,7 +12,10 @@
 		"BossHealthOverlayMixin",
 		"GuiMixin",
 		"ParticleEngineMixin",
-		"LevelRendererMixin"
+		"LevelRendererMixin",
+		"PlayerInfoMixin",
+		"PlayerTeamMixin",
+		"LocalPlayerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
