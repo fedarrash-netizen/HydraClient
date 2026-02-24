@@ -15,6 +15,7 @@
 		"GuiMixin",
 		"ParticleEngineMixin",
 		"LevelRendererMixin",
+		"ScreenEffectRendererMixin",
 		"PlayerInfoMixin",
 		"PlayerTeamMixin",
 		"SkyRendererMixin",

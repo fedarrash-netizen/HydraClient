@@ -106,6 +106,32 @@ public class NoRender extends Module {
         return isEnabled() && noNausea.get();
     }
 
+    public boolean shouldHideWaterLavaOverlay() {
+        return isEnabled() && noWaterLava.get();
+    }
+
+    public boolean shouldHideFireOverlay() {
+        return isEnabled() && noFire.get();
+    }
+
+    public boolean shouldHideBlockOverlay(ResourceLocation textureId) {
+        if (!isEnabled() || textureId == null) {
+            return false;
+        }
+
+        String path = textureId.getPath();
+        if (path == null) {
+            return false;
+        }
+
+        String lower = path.toLowerCase();
+        if (noPumpkin.get() && lower.contains("pumpkin")) {
+            return true;
+        }
+
+        return noWaterLava.get() && (lower.contains("lava") || lower.contains("water") || lower.contains("powder_snow"));
+    }
+
     public boolean shouldHideHurtCam() {
         return isEnabled() && noHurtCam.get();
     }
