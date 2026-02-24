@@ -11,6 +11,7 @@
 		"ChatScreenAccessor",
 		"BossHealthOverlayMixin",
 		"CloudRendererMixin",
+		"GameRendererNoRenderMixin",
 		"GuiMixin",
 		"ParticleEngineMixin",
 		"LevelRendererMixin",
