@@ -16,8 +16,7 @@
 		"LevelRendererMixin",
 		"PlayerInfoMixin",
 		"PlayerTeamMixin",
-		"SkyRendererMixin",
-		"FogRendererMixin"
+		"SkyRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
