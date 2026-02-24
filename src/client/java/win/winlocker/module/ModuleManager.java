@@ -50,6 +50,7 @@ public class ModuleManager {
         modules.add(new Friend());
         modules.add(new CreeperFarm());
         modules.add(new NoHungry());
+        modules.add(new NameProtect());
 
         // Combat
         modules.add(new AutoTotem());
