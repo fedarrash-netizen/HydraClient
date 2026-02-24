@@ -1,9 +1,11 @@
 package win.winlocker.DropDown.settings;
 
 import org.lwjgl.glfw.GLFW;
+import java.util.function.Supplier;
 
 public class KeyBindSetting extends Setting {
 	private int key;
+	public Supplier<Boolean> visible = () -> true;
 
 	public KeyBindSetting(String name, int key) {
 		super(name);
@@ -52,5 +54,9 @@ public class KeyBindSetting extends Setting {
 			default:
 				return "KEY_" + key;
 		}
+	}
+
+	public boolean isVisible() {
+		return visible.get();
 	}
 }

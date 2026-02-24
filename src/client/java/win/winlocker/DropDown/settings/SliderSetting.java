@@ -1,15 +1,26 @@
 package win.winlocker.DropDown.settings;
 
+import java.util.function.Supplier;
+
 public class SliderSetting extends Setting {
 	private final double min;
 	private final double max;
 	private double value;
+	public Supplier<Boolean> visible = () -> true;
 
 	public SliderSetting(String name, double value, double min, double max) {
 		super(name);
 		this.min = min;
 		this.max = max;
 		this.value = clamp(value);
+	}
+
+	public SliderSetting(String name, double value, double min, double max, Supplier<Boolean> visible) {
+		super(name);
+		this.min = min;
+		this.max = max;
+		this.value = clamp(value);
+		this.visible = visible;
 	}
 
 	public double getMin() {
@@ -41,6 +52,10 @@ public class SliderSetting extends Setting {
 
 	public void setPercent(double percent) {
 		set(min + (max - min) * clamp01(percent));
+	}
+
+	public boolean isVisible() {
+		return visible.get();
 	}
 
 	private double clamp(double v) {

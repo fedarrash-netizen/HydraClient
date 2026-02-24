@@ -158,7 +158,7 @@ public class ClickGui extends Screen {
 	private int renderModule(GuiGraphics g, Module module, int x, int y, int mouseX, int mouseY) {
 		int titleColor = module.isEnabled() ? 0xFF5AA8FF : 0xFFCCCCCC;
 		g.drawString(this.font, module.getName(), x, y, titleColor, false);
-		
+
 		int bindW = this.font.width("[" + (module.getKey() == 0 ? "NONE" : GLFW.glfwGetKeyName(module.getKey(), 0)) + "]");
 		// Simple bind display next to name if not NONE
 		if (module.getKey() != 0) {
@@ -169,17 +169,35 @@ public class ClickGui extends Screen {
 		int cy = y + 14;
 		for (Setting s : module.getSettings()) {
 			if (s instanceof BooleanSetting) {
-				renderBooleanSetting(g, (BooleanSetting) s, x, cy, mouseX, mouseY);
-				cy += 14;
+				BooleanSetting bs = (BooleanSetting) s;
+				if (bs.isVisible()) {
+					renderBooleanSetting(g, bs, x, cy, mouseX, mouseY);
+					cy += 14;
+				}
 			} else if (s instanceof SliderSetting) {
-				renderSliderSetting(g, (SliderSetting) s, x, cy, mouseX, mouseY);
-				cy += 18;
+				SliderSetting ss = (SliderSetting) s;
+				if (ss.isVisible()) {
+					renderSliderSetting(g, ss, x, cy, mouseX, mouseY);
+					cy += 18;
+				}
 			} else if (s instanceof ModeSetting) {
-				renderModeSetting(g, (ModeSetting) s, x, cy, mouseX, mouseY);
-				cy += 14;
+				ModeSetting ms = (ModeSetting) s;
+				if (ms.isVisible()) {
+					renderModeSetting(g, ms, x, cy, mouseX, mouseY);
+					cy += 14;
+				}
 			} else if (s instanceof KeyBindSetting) {
-				renderKeyBindSetting(g, (KeyBindSetting) s, x, cy, mouseX, mouseY, module);
-				cy += 14;
+				KeyBindSetting ks = (KeyBindSetting) s;
+				if (ks.isVisible()) {
+					renderKeyBindSetting(g, ks, x, cy, mouseX, mouseY, module);
+					cy += 14;
+				}
+			} else if (s instanceof ColorSetting) {
+				ColorSetting cs = (ColorSetting) s;
+				if (cs.isVisible()) {
+					renderColorSetting(g, cs, x, cy, mouseX, mouseY);
+					cy += 16;
+				}
 			}
 		}
 		return cy;
@@ -238,6 +256,29 @@ public class ClickGui extends Screen {
 		int bg = hover ? 0x40222222 : 0x30181818;
 		g.fill(x, y, x + w, y + h, bg);
 		g.drawString(this.font, s.getName() + ": " + s.get(), x + 4, y + 2, 0xFFDDDDDD, false);
+	}
+
+	private void renderColorSetting(GuiGraphics g, ColorSetting s, int x, int y, int mouseX, int mouseY) {
+		int contentW = settings != null ? settings.getContentWidth() : 160;
+		int w = contentW;
+		int h = 14;
+		boolean hover = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
+		int bg = hover ? 0x40222222 : 0x30181818;
+		g.fill(x, y, x + w, y + h, bg);
+		
+		// Отображение названия
+		g.drawString(this.font, s.getName() + ":", x + 4, y + 3, 0xFFDDDDDD, false);
+		
+		// Цветовой прямоугольник
+		int colorBoxSize = 10;
+		int colorX = x + w - colorBoxSize - 2;
+		int colorY = y + 2;
+		g.fill(colorX, colorY, colorX + colorBoxSize, colorY + colorBoxSize, 0xFF000000);
+		g.fill(colorX + 1, colorY + 1, colorX + colorBoxSize - 1, colorY + colorBoxSize - 1, s.get());
+		
+		// HEX значение
+		String hex = String.format("#%08X", s.get());
+		g.drawString(this.font, hex, x + w - this.font.width(hex) - colorBoxSize - 8, y + 3, 0xFF888888, false);
 	}
 
 	@Override
@@ -304,14 +345,14 @@ public class ClickGui extends Screen {
 		draggingSlider = false;
 		int cy = y;
 		List<Module> modules = ModuleManager.getModulesByCategory(selectedCategory);
-		
+
 		// Фильтрация модулей по поисковому запросу
 		if (!searchQuery.isEmpty()) {
 			modules = modules.stream()
 				.filter(m -> m.getName().toLowerCase().contains(searchQuery.toLowerCase()))
 				.toList();
 		}
-		
+
 		for (Module m : modules) {
 			if (hit(mx, my, x, cy, getPanelWidth() - PAD * 2, 12)) {
 				if (button == 0) m.toggle();
@@ -320,32 +361,44 @@ public class ClickGui extends Screen {
 			int nextY = cy + 14;
 			for (Setting s : m.getSettings()) {
 				if (s instanceof BooleanSetting) {
-					if (hit(mx, my, x, nextY, getContentWidth(), 12)) {
-						((BooleanSetting) s).toggle();
+					BooleanSetting bs = (BooleanSetting) s;
+					if (bs.isVisible() && hit(mx, my, x, nextY, getContentWidth(), 12)) {
+						bs.toggle();
 						return true;
 					}
-					nextY += 14;
+					if (bs.isVisible()) nextY += 14;
 				} else if (s instanceof SliderSetting) {
-					if (hit(mx, my, x, nextY, getContentWidth(), 12)) {
+					SliderSetting ss = (SliderSetting) s;
+					if (ss.isVisible() && hit(mx, my, x, nextY, getContentWidth(), 12)) {
 						draggingSlider = true;
-						setActiveDraggingSlider((SliderSetting) s);
-						updateSliderFromMouse((SliderSetting) s, x, getContentWidth(), mouseXDouble);
+						setActiveDraggingSlider(ss);
+						updateSliderFromMouse(ss, x, getContentWidth(), mouseXDouble);
 						return true;
 					}
-					nextY += 18;
+					if (ss.isVisible()) nextY += 18;
 				} else if (s instanceof ModeSetting) {
-					if (hit(mx, my, x, nextY, getContentWidth(), 12)) {
-						((ModeSetting) s).next();
+					ModeSetting ms = (ModeSetting) s;
+					if (ms.isVisible() && hit(mx, my, x, nextY, getContentWidth(), 12)) {
+						ms.next();
 						return true;
 					}
-					nextY += 14;
+					if (ms.isVisible()) nextY += 14;
 				} else if (s instanceof KeyBindSetting) {
-					if (hit(mx, my, x, nextY, getContentWidth(), 12) && button == 2) {
-						listeningBind = (KeyBindSetting) s;
+					KeyBindSetting ks = (KeyBindSetting) s;
+					if (ks.isVisible() && hit(mx, my, x, nextY, getContentWidth(), 12) && button == 2) {
+						listeningBind = ks;
 						listeningModule = m;
 						return true;
 					}
-					nextY += 14;
+					if (ks.isVisible()) nextY += 14;
+				} else if (s instanceof ColorSetting) {
+					ColorSetting cs = (ColorSetting) s;
+					if (cs.isVisible() && hit(mx, my, x, nextY, getContentWidth(), 12) && button == 0) {
+						// Открыть ColorPicker при клике
+						Minecraft.getInstance().setScreen(new ColorPicker(this, cs));
+						return true;
+					}
+					if (cs.isVisible()) nextY += 16;
 				}
 			}
 			cy = nextY + 8;

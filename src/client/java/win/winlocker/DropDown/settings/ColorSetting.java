@@ -1,13 +1,23 @@
 package win.winlocker.DropDown.settings;
 
+import java.util.function.Supplier;
+
 public class ColorSetting extends Setting {
     private int color;
     private final int defaultColor;
+    public Supplier<Boolean> visible = () -> true;
 
     public ColorSetting(String name, int defaultColor) {
         super(name);
         this.color = defaultColor;
         this.defaultColor = defaultColor;
+    }
+
+    public ColorSetting(String name, int defaultColor, Supplier<Boolean> visible) {
+        super(name);
+        this.color = defaultColor;
+        this.defaultColor = defaultColor;
+        this.visible = visible;
     }
 
     public int get() {
@@ -24,6 +34,10 @@ public class ColorSetting extends Setting {
 
     public int getDefault() {
         return defaultColor;
+    }
+
+    public boolean isVisible() {
+        return visible.get();
     }
 
     public int getRed() {
