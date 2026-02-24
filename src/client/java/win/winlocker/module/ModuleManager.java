@@ -39,6 +39,7 @@ public class ModuleManager {
         modules.add(new NoRender());
         modules.add(new ParticlesModule());
         modules.add(new TargetESP());
+        modules.add(new CustomFog());
 
         // Misc
         modules.add(new RemoveVisual());

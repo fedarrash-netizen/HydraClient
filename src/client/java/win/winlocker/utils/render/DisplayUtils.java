@@ -46,4 +46,12 @@ public class DisplayUtils {
     public static int rgba(int r, int g, int b, int a) {
         return (a << 24) | (r << 16) | (g << 8) | b;
     }
+
+    public static float[] decodeColor(int color) {
+        float a = (float) ((color >> 24) & 0xFF) / 255.0F;
+        float r = (float) ((color >> 16) & 0xFF) / 255.0F;
+        float g = (float) ((color >> 8) & 0xFF) / 255.0F;
+        float b = (float) (color & 0xFF) / 255.0F;
+        return new float[]{r, g, b, a};
+    }
 }

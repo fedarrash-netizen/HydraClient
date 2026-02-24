@@ -15,7 +15,8 @@
 		"LevelRendererMixin",
 		"PlayerInfoMixin",
 		"PlayerTeamMixin",
-		"LocalPlayerMixin"
+		"LocalPlayerMixin",
+		"FogRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
