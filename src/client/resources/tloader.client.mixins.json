@@ -1,0 +1,20 @@
+{
+	"required": true,
+	"package": "win.winlocker.mixin.client",
+	"refmap": "tloader.refmap.json",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"ExampleClientMixin",
+		"TitleScreenMixin",
+		"MinecraftAccessor",
+		"ChatScreenMixin",
+		"ChatScreenAccessor",
+		"BossHealthOverlayMixin",
+		"GuiMixin",
+		"ParticleEngineMixin",
+		"LevelRendererMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
