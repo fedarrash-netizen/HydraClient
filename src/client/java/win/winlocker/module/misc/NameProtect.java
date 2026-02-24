@@ -1,6 +1,7 @@
 package win.winlocker.module.misc;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import win.winlocker.DropDown.settings.BooleanSetting;
 import win.winlocker.DropDown.settings.StringSetting;
 import win.winlocker.module.Module;
@@ -43,5 +44,33 @@ public class NameProtect extends Module {
     
     public static boolean isActive() {
         return instance != null && enabled.get() && !fakeName.isEmpty();
+    }
+
+    public static String replace(String value) {
+        if (!isActive() || value == null || value.isEmpty()) {
+            return value;
+        }
+
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) {
+            return value;
+        }
+
+        String selfName = mc.player.getName().getString();
+        if (selfName != null && selfName.equalsIgnoreCase(value)) {
+            return getFakeName();
+        }
+        return value;
+    }
+
+    public static Component replace(Component component) {
+        if (component == null) {
+            return null;
+        }
+        String replaced = replace(component.getString());
+        if (replaced == null) {
+            return component;
+        }
+        return replaced.equals(component.getString()) ? component : Component.literal(replaced);
     }
 }
