@@ -18,6 +18,7 @@ public class ModuleManager {
 
     public static void init() {
         // Combat
+        modules.add(new Aura());
         modules.add(new Targeting());
         modules.add(new AutoTotem());
         modules.add(new ElytraTarget());
@@ -72,6 +73,12 @@ public class ModuleManager {
     }
 
     public static Module getModule(String autoAttack) {
-        return null;
+        if (autoAttack == null) {
+            return null;
+        }
+        return modules.stream()
+                .filter(m -> m.getName().equalsIgnoreCase(autoAttack))
+                .findFirst()
+                .orElse(null);
     }
 }

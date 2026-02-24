@@ -35,7 +35,10 @@ public class AutoMessage extends Module {
         Module aura = null;
         try {
             // Пытаемся найти Aura через ModuleManager
-            aura = ModuleManager.getModule("AutoAttack");
+            aura = ModuleManager.getModule("Aura");
+            if (aura == null) {
+                aura = ModuleManager.getModule("AutoAttack");
+            }
         } catch (Exception e) {
             // Если Aura не найден, просто выходим
             return;
