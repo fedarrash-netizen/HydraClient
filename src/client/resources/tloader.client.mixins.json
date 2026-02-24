@@ -16,7 +16,6 @@
 		"LevelRendererMixin",
 		"PlayerInfoMixin",
 		"PlayerTeamMixin",
-		"LocalPlayerMixin",
 		"SkyRendererMixin",
 		"FogRendererMixin"
 	],
