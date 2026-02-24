@@ -11,9 +11,11 @@
 		"ChatScreenAccessor",
 		"BossHealthOverlayMixin",
 		"CloudRendererMixin",
+		"GameRendererNoRenderMixin",
 		"GuiMixin",
 		"ParticleEngineMixin",
 		"LevelRendererMixin",
+		"ScreenEffectRendererMixin",
 		"PlayerInfoMixin",
 		"PlayerTeamMixin",
 		"SkyRendererMixin"

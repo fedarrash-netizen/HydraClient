@@ -34,4 +34,20 @@ public class GuiMixin {
             ci.cancel();
         }
     }
+
+    @Inject(method = "renderPortalOverlay", at = @At("HEAD"), cancellable = true)
+    private void onRenderPortalOverlay(GuiGraphics guiGraphics, float alpha, CallbackInfo ci) {
+        NoRender nr = getNoRender();
+        if (nr != null && nr.shouldHidePortalOverlay()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "renderConfusionOverlay", at = @At("HEAD"), cancellable = true)
+    private void onRenderConfusionOverlay(GuiGraphics guiGraphics, float scale, CallbackInfo ci) {
+        NoRender nr = getNoRender();
+        if (nr != null && nr.shouldHideNauseaOverlay()) {
+            ci.cancel();
+        }
+    }
 }
