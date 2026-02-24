@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
 import win.winlocker.module.ModuleManager;
 import win.winlocker.module.misc.RemoveVisual;
+import win.winlocker.utils.render.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,11 @@ public final class StaffListHud {
         int x = 6;
         int y = 100;
 
-        g.drawString(font, "Staff Online:", x, y, 0xFFFF5555, true);
+        TextUtils.draw(g, font, "Staff Online:", x, y, 0xFFFF5555, true);
         y += font.lineHeight + 2;
 
         for (String s : staff) {
-            g.drawString(font, "- " + s, x, y, 0xFFFFFFFF, true);
+            TextUtils.draw(g, font, "- " + s, x, y, 0xFFFFFFFF, true);
             y += font.lineHeight + 2;
         }
     }

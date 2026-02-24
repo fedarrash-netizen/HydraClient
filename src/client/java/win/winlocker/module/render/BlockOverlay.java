@@ -14,6 +14,7 @@ import win.winlocker.DropDown.settings.BooleanSetting;
 import win.winlocker.DropDown.settings.ModeSetting;
 import win.winlocker.module.Module;
 import win.winlocker.utils.render.DisplayUtils;
+import win.winlocker.utils.render.TextUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -161,17 +162,17 @@ public class BlockOverlay extends Module {
         Font font = mc.font;
         
         // Название блока
-        String displayName = blockName.length() > 15 ? blockName.substring(0, 12) + "..." : blockName;
-        g.drawString(font, displayName, x + 8, y + 8, textColor, true);
+        String displayName = TextUtils.ellipsize(font, blockName, 74);
+        TextUtils.draw(g, font, displayName, x + 8, y + 8, textColor, true);
         
         // Дистанция
         String distanceText = String.format("%.1fm", distance);
-        int distanceWidth = font.width(distanceText);
-        g.drawString(font, distanceText, x + width - distanceWidth - 8, y + 8, distanceColor, true);
+        int distanceWidth = TextUtils.width(font, distanceText);
+        TextUtils.draw(g, font, distanceText, x + width - distanceWidth - 8, y + 8, distanceColor, true);
         
         // Координаты блока (маленьким текстом)
         String coordsText = String.format("%d %d %d", pos.getX(), pos.getY(), pos.getZ());
-        g.drawString(font, coordsText, x + 8, y + height - 10, applyEffect(0xFF787878), false);
+        TextUtils.draw(g, font, coordsText, x + 8, y + height - 10, applyEffect(0xFF787878), false);
     }
     
     private int getColor() {

@@ -13,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import win.winlocker.utils.render.DisplayUtils;
+import win.winlocker.utils.render.TextUtils;
 
 public final class TargetHud {
 	public void render(GuiGraphics g) {
@@ -88,15 +89,15 @@ public final class TargetHud {
 		int nameY = y + 10;
 		
 		// Имя игрока (белый)
-		g.drawString(font, name, textX, nameY, 0xFFFFFFFF, true);
+		TextUtils.draw(g, font, name, textX, nameY, 0xFFFFFFFF, true);
 		
 		// Привилегия (цветная)
 		int privilegeColor = getPrivilegeColor(privilege);
-		g.drawString(font, privilege, textX + font.width(name) + 5, nameY, privilegeColor, true);
+		TextUtils.draw(g, font, privilege, textX + TextUtils.width(font, name) + 5, nameY, privilegeColor, true);
 
 		// HP текст
 		int hpY = nameY + 12;
-		g.drawString(font, hpText, textX, hpY, 0xFFAAAAAA, false);
+		TextUtils.draw(g, font, hpText, textX, hpY, 0xFFAAAAAA, false);
 
 		// Полоска здоровья
 		int barWidth = width - 60;

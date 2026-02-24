@@ -38,6 +38,7 @@ import win.winlocker.module.render.FullBright;
 import win.winlocker.utils.math.MathUtil;
 import win.winlocker.utils.render.DisplayUtils;
 import win.winlocker.utils.render.LogoRenderer;
+import win.winlocker.utils.render.TextUtils;
 
 import java.time.format.DateTimeFormatter;
 
@@ -184,8 +185,8 @@ public class TLoaderClient implements ClientModInitializer {
 		float subSize = 5f;
 		float statsSize = 5f;
 
-		float titleWidth = mc.font.width(title);
-		float subWidth = mc.font.width(subtitle);
+		float titleWidth = TextUtils.width(mc.font, title);
+		float subWidth = TextUtils.width(mc.font, subtitle);
 		float textWidth = Math.max(titleWidth, subWidth);
 
 		int fps = mc.getFps();
@@ -194,8 +195,8 @@ public class TLoaderClient implements ClientModInitializer {
 		String pingText = ping + " ms";
 		String fpsText = fps + " fps";
 
-		float pingTextWidth = mc.font.width(pingText);
-		float fpsTextWidth = mc.font.width(fpsText);
+		float pingTextWidth = TextUtils.width(mc.font, pingText);
+		float fpsTextWidth = TextUtils.width(mc.font, fpsText);
 		float statsTextWidth = Math.max(pingTextWidth, fpsTextWidth);
 
 		float width = logoSize + logoPadding + paddingLeft + textWidth + statsPadding + statsTextWidth + paddingRight;
@@ -223,17 +224,17 @@ public class TLoaderClient implements ClientModInitializer {
 		float subY = y + 16f; // Фиксированная позиция для подзаголовка
 
 		// Рендерим основной текст
-		context.drawString(mc.font, title, (int)textX, (int)titleY, textColor, true);
-		context.drawString(mc.font, subtitle, (int)textX, (int)subY, textColor, true);
+		TextUtils.draw(context, mc.font, title, textX, titleY, textColor, true);
+		TextUtils.draw(context, mc.font, subtitle, textX, subY, textColor, true);
 
 		// Позиционируем статистику справа без наложения
 		float statsRightX = x + width - paddingRight - statsTextWidth;
 		
 		float pingY = titleY;
-		context.drawString(mc.font, pingText, (int)statsRightX, (int)pingY, pingColor, true);
+		TextUtils.draw(context, mc.font, pingText, statsRightX, pingY, pingColor, true);
 
 		float fpsY = subY;
-		context.drawString(mc.font, fpsText, (int)statsRightX, (int)fpsY, fpsColor, true);
+		TextUtils.draw(context, mc.font, fpsText, statsRightX, fpsY, fpsColor, true);
 	}
 
 	private static void renderOverlays(GuiGraphics context) {

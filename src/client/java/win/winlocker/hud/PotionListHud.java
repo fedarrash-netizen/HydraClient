@@ -5,6 +5,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
+import win.winlocker.utils.render.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,8 +35,8 @@ public final class PotionListHud {
 				name = name + " " + (amp + 1);
 			}
 			String line = name + " " + formatDuration(e.getDuration());
-			int w = font.width(line);
-			g.drawString(font, line, x - w, y, 0xFFFFFFFF, true);
+			int w = TextUtils.width(font, line);
+			TextUtils.draw(g, font, line, x - w, y, 0xFFFFFFFF, true);
 			y += font.lineHeight + 2;
 		}
 	}

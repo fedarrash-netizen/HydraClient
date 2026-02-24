@@ -9,6 +9,7 @@ import win.winlocker.module.Module;
 import win.winlocker.module.ModuleManager;
 import win.winlocker.module.render.ParticlesModule;
 import win.winlocker.ClientSettings;
+import win.winlocker.utils.render.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public final class KeyBindsHud {
 		int y = ClientSettings.keyBindsHudY;
 		int w = 0;
 		for (String s : lines) {
-			w = Math.max(w, font.width(s));
+			w = Math.max(w, TextUtils.width(font, s));
 		}
 		w += 10;
 		int h = 8 + lines.size() * (font.lineHeight + 2);
@@ -59,10 +60,10 @@ public final class KeyBindsHud {
 		g.fill(x, y, x + 1, y + h, outline);
 		g.fill(x + w - 1, y, x + w, y + h, outline);
 
-		g.drawString(font, "KeyBinds", x + 5, y + 4, 0xFFFFFFFF, true);
+		TextUtils.draw(g, font, "KeyBinds", x + 5, y + 4, 0xFFFFFFFF, true);
 		int ty = y + 4 + font.lineHeight + 2;
 		for (String s : lines) {
-			g.drawString(font, s, x + 5, ty, 0xFFDDDDDD, false);
+			TextUtils.draw(g, font, s, x + 5, ty, 0xFFDDDDDD, false);
 			ty += font.lineHeight + 2;
 		}
 
@@ -71,7 +72,7 @@ public final class KeyBindsHud {
 			int my = (int) getMouseYScaled();
 			boolean hover = mx >= x && mx <= x + w && my >= y && my <= y + h;
 			if (hover) {
-				g.drawString(font, "(drag)", x + w - 5 - font.width("(drag)"), y + 4, 0xFFAAAAAA, false);
+				TextUtils.draw(g, font, "(drag)", x + w - 5 - TextUtils.width(font, "(drag)"), y + 4, 0xFFAAAAAA, false);
 			}
 		}
 	}
