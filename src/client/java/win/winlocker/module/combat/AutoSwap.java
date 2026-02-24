@@ -24,8 +24,7 @@ public class AutoSwap extends Module {
     private float healthThreshold = 7.0f;
     private int delayTicks = 4;
     private int cooldown = 0;
-    
-    // Предметы для свапа
+
     private Item lowHealthItem = Items.GOLDEN_APPLE;
     private Item combatItem = Items.NETHERITE_SWORD;
     private Item utilityItem = Items.TOTEM_OF_UNDYING;

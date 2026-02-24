@@ -16,6 +16,7 @@ import java.util.List;
 
 public class Aura extends Module {
     private final ModeSetting sortMode = new ModeSetting("Sort", "Closest", List.of("Closest", "Lowest HP"));
+    private final ModeSetting serverMode = new ModeSetting("Server", "None", List.of("None", "HolyWorld", "FunTime"));
     private final SliderSetting range = new SliderSetting("Range", 4.0, 1.0, 6.0);
     private final SliderSetting cps = new SliderSetting("CPS", 10.0, 1.0, 20.0);
     private final BooleanSetting targetPlayers = new BooleanSetting("Players", true);
@@ -23,6 +24,7 @@ public class Aura extends Module {
     private final BooleanSetting ignoreFriends = new BooleanSetting("Ignore Friends", true);
     private final BooleanSetting ignoreInvisible = new BooleanSetting("Ignore Invisible", true);
     private final BooleanSetting onlyCriticals = new BooleanSetting("Only Criticals", false);
+    private final SliderSetting criticalsSpeed = new SliderSetting("Criticals Speed", 1.0, 0.5, 3.0);
     private final BooleanSetting throughWalls = new BooleanSetting("Through Walls", false);
 
     private final FriendStorage friendStorage = FriendStorage.getInstance();
@@ -33,6 +35,7 @@ public class Aura extends Module {
     public Aura() {
         super("Aura", Category.COMBAT);
         addSetting(sortMode);
+        addSetting(serverMode);
         addSetting(range);
         addSetting(cps);
         addSetting(targetPlayers);
@@ -40,6 +43,7 @@ public class Aura extends Module {
         addSetting(ignoreFriends);
         addSetting(ignoreInvisible);
         addSetting(onlyCriticals);
+        addSetting(criticalsSpeed);
         addSetting(throughWalls);
     }
 
@@ -47,6 +51,7 @@ public class Aura extends Module {
     public void onDisable() {
         target = null;
         attackDelayTicks = 0;
+        resetServerBypass();
     }
 
     @Override
@@ -56,6 +61,8 @@ public class Aura extends Module {
             target = null;
             return;
         }
+
+        applyServerBypass();
 
         if (attackDelayTicks > 0) {
             attackDelayTicks--;
@@ -76,7 +83,10 @@ public class Aura extends Module {
 
         mc.gameMode.attack(mc.player, target);
         mc.player.swing(InteractionHand.MAIN_HAND);
-        attackDelayTicks = Math.max(1, (int) Math.round(20.0 / cps.get()));
+        int baseDelay = Math.max(1, (int) Math.round(20.0 / cps.get()));
+        attackDelayTicks = onlyCriticals.get()
+                ? (int) Math.round(baseDelay / criticalsSpeed.get())
+                : baseDelay;
     }
 
     public Player getTarget() {
@@ -85,6 +95,29 @@ public class Aura extends Module {
 
     public LivingEntity getCombatTarget() {
         return target;
+    }
+
+    private void applyServerBypass() {
+        String server = serverMode.get();
+        
+        if ("HolyWorld".equals(server)) {
+            // HolyWorld - Grim 2.3.72 + Sloth AI обход
+            range.set(3.5);
+            cps.set(8.0);
+            throughWalls.set(false);
+        } else if ("FunTime".equals(server)) {
+            // FunTime - Polar античит обход
+            range.set(3.0);
+            cps.set(6.0);
+            onlyCriticals.set(true);
+            throughWalls.set(false);
+        }
+        // "None" - использует пользовательские настройки
+    }
+
+    private void resetServerBypass() {
+        // Сброс настроек при отключении модуля
+        // Настройки возвращаются к значениям по умолчанию через ModeSetting
     }
 
     private LivingEntity findTarget(Minecraft mc) {
