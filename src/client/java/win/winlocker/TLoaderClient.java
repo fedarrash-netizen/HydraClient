@@ -39,6 +39,7 @@ import win.winlocker.utils.math.MathUtil;
 import win.winlocker.utils.render.DisplayUtils;
 import win.winlocker.utils.render.LogoRenderer;
 import win.winlocker.utils.render.TextUtils;
+import win.winlocker.render.watermark.WaterMarkRenderer;
 
 import java.time.format.DateTimeFormatter;
 
@@ -51,6 +52,7 @@ public class TLoaderClient implements ClientModInitializer {
 	private static final TargetHud TARGET_HUD = new TargetHud();
 	private static final StaffListHud STAFF_LIST_HUD = new StaffListHud();
 	private static final ItemRadius ITEM_RADIUS = new ItemRadius();
+	private static final WaterMarkRenderer WATERMARK_RENDERER = WaterMarkRenderer.getInstance();
 
 	private static boolean particlesKeyWasDown;
 	private static boolean targetingKeyWasDown;
@@ -60,7 +62,10 @@ public class TLoaderClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		ModuleManager.init();
 		ConfigManager.loadConfig(); // Загружаем конфиг при старте
-		
+
+		// Включаем WaterMark при старте
+		WATERMARK_RENDERER.setEnabled(true);
+
 		HudRenderCallback.EVENT.register((guiGraphics, tickDelta) -> {
 			renderClientHud(guiGraphics);
 			renderOverlays(guiGraphics);
@@ -160,81 +165,8 @@ public class TLoaderClient implements ClientModInitializer {
 			return;
 		}
 
-		Minecraft mc = Minecraft.getInstance();
-		if (mc.player == null || mc.font == null) {
-			return;
-		}
-
-		// Новый стильный WaterMark с правильным позиционированием
-		float x = 15f;
-		float y = 15f;
-		float height = 30f; // Увеличим высоту для нормального размещения
-		float radius = 4f;
-		float logoSize = 23f;
-
-		float paddingLeft = 5f;
-		float logoPadding = 2f;
-		float paddingRight = 4f;
-		float statsPadding = 8f; // Увеличим отступ
-
-		String title = "Pulse Visuals";
-		String subtitle = "PulseVisuals.pro";
-
-		// Уменьшим размеры текста
-		float titleSize = 7f;
-		float subSize = 5f;
-		float statsSize = 5f;
-
-		float titleWidth = TextUtils.width(mc.font, title);
-		float subWidth = TextUtils.width(mc.font, subtitle);
-		float textWidth = Math.max(titleWidth, subWidth);
-
-		int fps = mc.getFps();
-		int ping = MathUtil.calculatePing();
-
-		String pingText = ping + " ms";
-		String fpsText = fps + " fps";
-
-		float pingTextWidth = TextUtils.width(mc.font, pingText);
-		float fpsTextWidth = TextUtils.width(mc.font, fpsText);
-		float statsTextWidth = Math.max(pingTextWidth, fpsTextWidth);
-
-		float width = logoSize + logoPadding + paddingLeft + textWidth + statsPadding + statsTextWidth + paddingRight;
-
-		// Цвета для пастеров
-		int bgColor = DisplayUtils.rgb(36, 36, 36);
-		int textColor = DisplayUtils.rgb(255, 255, 255);
-
-		int pingColor = ping < 80 ? DisplayUtils.rgb(0, 255, 120) :
-				ping < 150 ? DisplayUtils.rgb(255, 200, 0) :
-						DisplayUtils.rgb(255, 80, 80);
-
-		int fpsColor = DisplayUtils.rgb(80, 160, 255);
-
-		DisplayUtils.drawRoundedRect(context, x, y, width, height, radius, bgColor);
-
-		// Рендерим логотип в начале WaterMark
-		LogoRenderer logoRenderer = LogoRenderer.getInstance();
-		if (logoRenderer != null) {
-			logoRenderer.renderLogo(context, x + logoPadding, y + (height - logoSize) / 2f, logoSize);
-		}
-
-		float textX = x + logoSize + logoPadding + paddingLeft;
-		float titleY = y + 6f; // Фиксированная позиция для заголовка
-		float subY = y + 16f; // Фиксированная позиция для подзаголовка
-
-		// Рендерим основной текст
-		TextUtils.draw(context, mc.font, title, textX, titleY, textColor, true);
-		TextUtils.draw(context, mc.font, subtitle, textX, subY, textColor, true);
-
-		// Позиционируем статистику справа без наложения
-		float statsRightX = x + width - paddingRight - statsTextWidth;
-		
-		float pingY = titleY;
-		TextUtils.draw(context, mc.font, pingText, statsRightX, pingY, pingColor, true);
-
-		float fpsY = subY;
-		TextUtils.draw(context, mc.font, fpsText, statsRightX, fpsY, fpsColor, true);
+		// Рендерим WaterMark через WaterMarkRenderer
+		WATERMARK_RENDERER.render(context);
 	}
 
 	private static void renderOverlays(GuiGraphics context) {
