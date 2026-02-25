@@ -56,28 +56,17 @@ public final class AltManagerStore {
 		save();
 
 		// Update Minecraft session for offline mode
-		updateSession(selected.getName());
-	}
-
-	private static void updateSession(String username) {
 		try {
 			Minecraft mc = Minecraft.getInstance();
-			java.lang.reflect.Field userField = Minecraft.class.getDeclaredField("user");
-			userField.setAccessible(true);
-			
-			java.util.UUID uuid = java.util.UUID.nameUUIDFromBytes(
-				("OfflinePlayer:" + username).getBytes(java.nio.charset.StandardCharsets.UTF_8)
-			);
-			
 			net.minecraft.client.User newUser = new net.minecraft.client.User(
-				username,
-				uuid,
-				"",
-				java.util.Optional.empty(),
-				java.util.Optional.empty(),
-				net.minecraft.client.User.Type.LEGACY
+					selected.getName(),
+					java.util.UUID.nameUUIDFromBytes(("OfflinePlayer:" + selected.getName()).getBytes(java.nio.charset.StandardCharsets.UTF_8)),
+					"",
+					java.util.Optional.empty(),
+					java.util.Optional.empty(),
+					net.minecraft.client.User.Type.LEGACY
 			);
-			userField.set(mc, newUser);
+			((win.winlocker.mixin.client.MinecraftAccessor) mc).setUser(newUser);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
