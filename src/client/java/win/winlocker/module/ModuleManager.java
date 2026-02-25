@@ -41,6 +41,8 @@ public class ModuleManager {
         modules.add(new TargetESP());
         modules.add(new CustomFog());
         modules.add(new HitColor());
+        modules.add(new ESP());
+        modules.add(new NameTags());
 
         // Misc
         modules.add(new RemoveVisual());
@@ -54,9 +56,7 @@ public class ModuleManager {
         modules.add(new CreeperFarm());
         modules.add(new NoHungry());
         modules.add(new NameProtect());
-
-        // Combat
-        modules.add(new AutoTotem());
+        modules.add(new Notifications());
     }
 
     public static List<Module> getModules() {

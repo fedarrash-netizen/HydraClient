@@ -10,12 +10,29 @@ public class DisplayUtils {
         context.fill(Math.round(x), Math.round(y), Math.round(x + width), Math.round(y + height), color);
     }
 
+    public static void drawRect(GuiGraphics context, float x, float y, float width, float height, int color) {
+        context.fill(Math.round(x), Math.round(y), Math.round(x + width), Math.round(y + height), color);
+    }
+
     public static void drawRoundedOutline(GuiGraphics context, float x, float y, float width, float height, float radius, float thickness, int color) {
         int left = Math.round(x);
         int top = Math.round(y);
         int right = Math.round(x + width);
         int bottom = Math.round(y + height);
         int border = Math.max(1, Math.round(thickness));
+
+        context.fill(left, top, right, top + border, color);
+        context.fill(left, bottom - border, right, bottom, color);
+        context.fill(left, top, left + border, bottom, color);
+        context.fill(right - border, top, right, bottom, color);
+    }
+
+    public static void drawBorder(GuiGraphics context, float x, float y, float width, float height, float borderWidth, int color) {
+        int border = Math.max(1, Math.round(borderWidth));
+        int left = Math.round(x);
+        int top = Math.round(y);
+        int right = Math.round(x + width);
+        int bottom = Math.round(y + height);
 
         context.fill(left, top, right, top + border, color);
         context.fill(left, bottom - border, right, bottom, color);
