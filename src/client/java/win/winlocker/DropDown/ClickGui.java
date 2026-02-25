@@ -3,6 +3,7 @@ package win.winlocker.DropDown;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
@@ -10,7 +11,7 @@ import win.winlocker.DropDown.settings.*;
 import win.winlocker.module.ModuleManager;
 import win.winlocker.module.Module;
 import win.winlocker.module.misc.ClickGuiSettings;
-import net.minecraft.client.gui.components.Button;
+import win.winlocker.alt.AltManagerScreen;
 
 import java.util.List;
 
@@ -51,6 +52,11 @@ public class ClickGui extends Screen {
 			Minecraft.getInstance().setScreen(new ConfigGui(this));
 		}).bounds(this.width - 80, 10, 80, 20).build();
 		this.addWidget(this.configButton);
+		
+		// Кнопка AltManager
+		this.addRenderableWidget(Button.builder(Component.literal("Alts"), button -> {
+			Minecraft.getInstance().setScreen(new AltManagerScreen(this));
+		}).bounds(this.width - 170, 10, 80, 20).build());
 	}
 
 	@Override
