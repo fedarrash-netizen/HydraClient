@@ -41,7 +41,7 @@ import win.winlocker.utils.render.LogoRenderer;
 import win.winlocker.utils.render.TextUtils;
 import win.winlocker.render.watermark.WaterMarkRenderer;
 import win.winlocker.render.notification.NotificationsRenderer;
-import win.winlocker.render.nametags.NameTagsRenderer;
+import win.winlocker.utils.render.ESPUtils;
 import win.winlocker.event.EventManager;
 import win.winlocker.event.EventDisplay;
 
@@ -58,7 +58,6 @@ public class TLoaderClient implements ClientModInitializer {
 	private static final ItemRadius ITEM_RADIUS = new ItemRadius();
 	private static final WaterMarkRenderer WATERMARK_RENDERER = WaterMarkRenderer.getInstance();
 	private static final NotificationsRenderer NOTIFICATIONS_RENDERER = NotificationsRenderer.getInstance();
-	private static final NameTagsRenderer NAMETAGS_RENDERER = NameTagsRenderer.getInstance();
 
 	private static boolean particlesKeyWasDown;
 	private static boolean targetingKeyWasDown;
@@ -199,8 +198,8 @@ public class TLoaderClient implements ClientModInitializer {
 			TARGET_HUD.render(context);
 			STAFF_LIST_HUD.render(context);
 
-			// Рендер NameTags
-			NAMETAGS_RENDERER.render(context, context.pose(), 0f);
+			// Рендер ESP и NameTags (функции, по умолчанию выключены)
+			ESPUtils.render(context);
 		}
 		KEY_BINDS_HUD.render(context);
 	}

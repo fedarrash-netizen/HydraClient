@@ -42,8 +42,6 @@ public class ModuleManager {
         modules.add(new TargetESP());
         modules.add(new CustomFog());
         modules.add(new HitColor());
-        modules.add(new ESP());
-        modules.add(new NameTags());
 
         // Misc
         modules.add(new RemoveVisual());
