@@ -44,4 +44,11 @@ public class ModeSetting extends Setting {
 	public boolean isVisible() {
 		return visible.get();
 	}
+
+	public void set(String mode) {
+		int newIndex = modes.indexOf(mode);
+		if (newIndex >= 0) {
+			this.index = newIndex;
+		}
+	}
 }

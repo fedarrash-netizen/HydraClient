@@ -20,7 +20,8 @@
 		"PlayerTeamMixin",
 		"SkyRendererMixin",
 		"LivingEntityRenderStateMixin",
-		"LivingEntityRendererHitColorMixin"
+		"LivingEntityRendererHitColorMixin",
+		"MultiPlayerGameModeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
