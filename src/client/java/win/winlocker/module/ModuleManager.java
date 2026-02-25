@@ -34,6 +34,7 @@ public class ModuleManager {
         modules.add(new NoFall());
         modules.add(new NoSlow());
         modules.add(new KeepSprint());
+        modules.add(new Spider());
 
         // Render
         modules.add(new NoRender());
